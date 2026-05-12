@@ -37,9 +37,8 @@ A production-grade Flutter Android application that listens for incoming SMS OTP
 - Logging system for debugging
 
 ## Project Structure
-
 ```
-indigo/
+otp_listener/
 ├── lib/
 │   ├── main.dart                 # Application entry point
 │   ├── models/
@@ -99,7 +98,7 @@ The application requires the following permissions (automatically requested at r
 
 1. **Clone/Navigate to project**
    ```bash
-   cd indigo
+   cd otp_listener
    ```
 
 2. **Install dependencies**

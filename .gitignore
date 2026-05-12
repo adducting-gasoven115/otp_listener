@@ -17,9 +17,9 @@ linux/
 windows/
 ios/
 macos/
-
-
-
+DEPLOYMENT_GUIDE.md
+GETTING_STARTED.md
+PROJECT_SUMMARY.md
 
 
 # IntelliJ related
