@@ -68,20 +68,6 @@ indigo/
 └── pubspec.yaml                 # Flutter dependencies
 ```
 
-## Dependencies
-
-```yaml
-dependencies:
-  flutter:
-    sdk: flutter
-  cupertino_icons: ^1.0.8
-  telephony: ^0.2.0                # SMS and telephony
-  shared_preferences: ^2.3.0        # Local storage
-  http: ^1.2.0                      # HTTP client
-  workmanager: ^0.5.2               # Background tasks
-  logger: ^2.2.0                    # Logging
-  provider: ^6.1.5+1                # State management
-```
 
 ## Android Permissions
 
@@ -197,65 +183,7 @@ The message must contain at least one of these keywords (case-insensitive):
 - otp, code, verification, verify, confirm, authenticate
 - password, pin, token, login, signin, auth, reset, validate
 
-## Architecture
 
-### Clean Architecture Layers
-
-```
-Presentation Layer
-├── Screens (UI components)
-├── Providers (State management)
-└── Widgets (Reusable UI)
-    ↓
-Business Layer
-├── Services
-├── Models
-└── Providers
-    ↓
-Data Layer
-├── Local Storage (SharedPreferences)
-└── Remote API (HTTP)
-```
-
-### State Management
-
-Using **Provider** package for state management:
-
-```dart
-Consumer<AppProvider>(
-  builder: (context, appProvider, _) {
-    // Access: appProvider.settings
-    //         appProvider.otpHistory
-    //         appProvider.isLoading
-    //         appProvider.error
-  },
-)
-```
-
-## Key Services
-
-### SettingsService
-- Manages app configuration
-- Persists backend URL and enabled state
-- Local storage operations
-
-### OtpExtractor
-- Regex-based OTP detection
-- Keyword matching for OTP messages
-- Multiple pattern support
-- Validation logic
-
-### SyncService
-- HTTP client for backend communication
-- Retry logic with exponential backoff
-- Error handling and logging
-- URL validation
-
-### SmsListenerService
-- SMS message processing
-- OTP extraction coordination
-- Backend synchronization
-- Stream management
 
 ## Logging
 
@@ -270,28 +198,6 @@ logger.e('Error message', error: exception);
 
 All logs are displayed in console during development.
 
-## UI Screens
-
-### Status Screen
-- Service status indicator
-- Statistics (messages, OTPs captured)
-- Backend configuration display
-- Error messages
-- Quick actions
-
-### Logs Screen
-- Message history with timestamps
-- OTP highlighting
-- Full message display
-- Copy to clipboard functionality
-- Clear history option
-
-### Settings Screen
-- Backend URL configuration
-- Enable/disable toggle
-- URL validation
-- Expected payload documentation
-- Retry configuration info
 
 ## Testing
 
@@ -309,31 +215,7 @@ All logs are displayed in console during development.
    - Check if backend receives the payload
    - Verify all fields are present
 
-### Example Test Backend (Node.js)
 
-```javascript
-const express = require('express');
-const app = express();
-
-app.use(express.json());
-
-app.post('/otp', (req, res) => {
-  console.log('OTP Received:', req.body);
-  res.json({ status: 'success', message: 'OTP received' });
-});
-
-app.listen(3000, () => {
-  console.log('Server running on port 3000');
-});
-```
-
-## Performance Optimization
-
-- Lazy initialization of services
-- Efficient regex patterns
-- Stream-based message handling
-- Minimal UI rebuilds with Consumer widget
-- Proper resource disposal
 
 ## Security Considerations
 
@@ -396,15 +278,3 @@ This project is provided as-is for production use.
 ## Support
 
 For issues and feature requests, refer to the application logs and error messages displayed in the Settings screen.
-
-## Future Enhancements
-
-- [ ] Background service for persistent listening
-- [ ] Database for historical data
-- [ ] Multiple backend configurations
-- [ ] Custom regex patterns
-- [ ] SMS filtering by sender
-- [ ] Notification system
-- [ ] Data encryption
-- [ ] Firebase integration
-- [ ] Cloud sync
